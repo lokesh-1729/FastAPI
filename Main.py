@@ -32,3 +32,10 @@ async def read_book_by_category(category : str):
             category_books.append(book)
     return category_books
 
+@app.get("/books/{book_param}/")
+async def get_by_name_catgeory(book_param : str, category : str):
+    for book in Books:
+        if book.get("title").casefold()==book_param.casefold() and book.get("category").casefold()==category.casefold():
+            return book
+    return "not found"
+        
