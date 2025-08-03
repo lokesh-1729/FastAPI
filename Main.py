@@ -3,10 +3,10 @@ app=FastAPI()#create a app variable to access fastapi
 
 
 Books=[
-    {"title":"alchemist","author":"paulo coehlo"},
-    {"title":"rich dada poor dad","author":"chinese"},
-    {"title":"alchemist","author":"paulo coehlo"},
-    {"title":"psychology of money","author":"jackson"}
+    {"title":"alchemist","author":"paulo coehlo","category":"fiction"},
+    {"title":"rich dada poor dad","author":"chinese","category":"self help"},
+    {"title":"alchemist","author":"paulo coehlo","category":"fiction"},
+    {"title":"psychology of money","author":"jackson","category":"science"}
 ]
 
 #adding decorators 
@@ -24,5 +24,11 @@ async def read_allbooks(dynamic_param : str):
         if book.get("title").casefold()==dynamic_param.casefold():
             return book
 
-
+@app.get("/books/")
+async def read_book_by_category(category : str):
+    category_books=[]
+    for book in Books:
+        if book.get("category").casefold()==category:
+            category_books.append(book)
+    return category_books
 
