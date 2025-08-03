@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import Body, FastAPI
 app=FastAPI()#create a app variable to access fastapi
 
 
@@ -38,4 +38,26 @@ async def get_by_name_catgeory(book_param : str, category : str):
         if book.get("title").casefold()==book_param.casefold() and book.get("category").casefold()==category.casefold():
             return book
     return "not found"
+
+@app.post("/books/added_book")
+async def add_book(new_book=Body()):
+    Books.append(new_book)
+    return "Book added"
+
+@app.put("/books/update_book")
+async def update_book(updated_book=Body()):
+    for i in range(len(Books)):
+        if Books[i].get("title").casefold()==updated_book.get("title").casefold():
+            Books[i]=updated_book
+    return "changes made"
+
+@app.delete("/books/delete_book/{book_title}")
+async def delete_book(book_title: str):
+    for i in range(len(Books)):
+        if Books[i].get("title").casefold()==book_title.casefold():
+            Books.pop(i)
+            return "Book deleted"
+    
+
+
         
